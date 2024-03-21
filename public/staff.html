@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>FSI ACADAMIC WORKS</title>
+</head>
+
+<body>
+  <!-- component -->
+  <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
+
+  <!-- page -->
+  <main className="min-h-screen w-full bg-gray-100 text-gray-700" x-data="layout">
+    <!-- header page -->
+    <header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-white p-2">
+      <!-- logo -->
+      <div className="flex items-center space-x-2">
+        <button type="button" className="text-3xl" @click="asideOpen = !asideOpen"><i className="bx bx-menu"></i></button>
+        <div>Logo</div>
+      </div>
+
+      <!-- button profile -->
+      <div>
+        <button type="button" @click="profileOpen = !profileOpen" @click.outside="profileOpen = false"
+          className="h-9 w-9 overflow-hidden rounded-full">
+          <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
+        </button>
+
+        <!-- dropdown profile -->
+        <div
+          className="absolute z-20 right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md"
+          x-show="profileOpen" x-transition>
+          <div className="flex items-center space-x-2 p-2">
+            <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" className="h-9 w-9 rounded-full" />
+            <div className="font-medium">Leonce Haziq</div>
+          </div>
+
+          <div className="flex flex-col space-y-3 p-2">
+            <a href="#" className="transition hover:text-blue-600">My Profile</a>
+            <a href="#" className="transition hover:text-blue-600">Edit Profile</a>
+            <a href="#" className="transition hover:text-blue-600">Settings</a>
+          </div>
+
+          <div className="p-2">
+            <button className="flex items-center space-x-2 transition hover:text-blue-600">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                </path>
+              </svg>
+              <div>Log Out</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div className="flex">
+      <!-- aside -->
+      <aside className="flex w-56 flex-col space-y-2 border-r-2 h-auto border-gray-200 bg-white p-2" style="height: 90.5vh"
+        x-show="asideOpen">
+        <a href="index.html" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" className="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+          <span className="text-xl  font-semibold">Dashboard</span>
+        </a>
+
+        <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" className="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+          </svg>
+          <span className="text-xl  font-semibold">Staff</span>
+        </a>
+
+        <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" className="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+          </svg>
+
+          <span className="text-xl  font-semibold">Students</span>
+        </a>
+
+        <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+          <span className="text-2xl"><i className="bx bx-heart"></i></span>
+          <span className="text-xl  font-semibold">Department</span>
+        </a>
+
+        <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+          <span className="text-2xl"><i className="bx bx-user"></i></span>
+          <span className="text-xl  font-semibold">Histories</span>
+        </a>
+        <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+          <span className="text-2xl"><i className="bx bx-user"></i></span>
+          <span className="text-xl  font-semibold">Horaires</span>
+        </a>
+        <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+          <span className="text-2xl"><i className="bx bx-user"></i></span>
+          <span className="text-xl  font-semibold">Statistiques</span>
+        </a>
+      </aside>
+
+      <!-- component -->
+      <div className="space-y-3 w-full ">
+        
+          <div
+          className="relative flex w-full flex-row h-[16rem] py-3 px-5 space-x-2 items-center justify-between bg-white shadow-lg shadow-blue-gray-500/10">
+          <!-- component -->
+          <div
+            className="whitespace-normal w-full h-full break-words rounded-lg border border-blue-gray-50 bg-white p-10 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
+            <div><span className="text-2xl font-semibold ">Staff List </span></div>
+            <span className="text-2xl font-bold ">250 </span>
+          </div>
+          <div
+            className="whitespace-normal w-full h-full break-words rounded-lg border border-blue-gray-50 bg-white p-10 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
+            <div><span className="text-2xl font-semibold ">Detail Staff </span></div>
+            <span className="text-2xl font-bold ">250 </span>
+          </div>
+        </div>
+        
+        <div
+          className="relative flex w-full flex-row h-[16rem] py-3 px-3 space-x-2 items-center justify-between bg-white shadow-lg shadow-blue-gray-500/10">
+          <!-- component -->
+          <div
+            className="whitespace-normal w-full h-full break-words rounded-lg border border-blue-gray-50 bg-white p-10 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
+            <div><span className="text-2xl font-semibold ">Eleves </span></div>
+            <span className="text-2xl font-bold ">250 </span>
+          </div>
+          <div
+            className="whitespace-normal w-full h-full break-words rounded-lg border border-blue-gray-50 bg-white p-10 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
+            <div><span className="text-2xl font-semibold ">Eleves </span></div>
+            <span className="text-2xl font-bold ">250 </span>
+          </div>
+        </div>
+      </div>
+
+  </main>
+
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("layout", () => ({
+        profileOpen: false,
+        asideOpen: true,
+      }));
+    });
+  </script>
+</body>
+
+</html>
