@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image'
 import React, { useContext } from 'react'
-import { detailProduct } from '@/app/libs/products'
+import { detailProduct } from '../../libs/products'
 import { ProductContext } from '../context/products'
 
 function Detail({ id }) {

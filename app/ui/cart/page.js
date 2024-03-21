@@ -1,18 +1,26 @@
 "use client"
 import Image from 'next/image'
 import React, { useContext } from 'react'
-import { getIncart, totalIncart, totalPrice } from '@/app/libs/products'
+import { getIncart, totalPrice } from '../../libs/products'
 import Link from 'next/link'
 import { ProductContext } from '../context/products'
+import { useRouter } from 'next/navigation'
 
 function Cart() {
+  const {push} = useRouter()
   const { increment, decrement, handleCount, removeInCart } = useContext(ProductContext)
   const products = getIncart()
   const totalprice = totalPrice()
   const num1 = totalprice;
   const num2 = (totalprice / 100);
   const total = num1 + num2;
-
+  const handleCheckout =()=>{
+    if(!isNaN(total)){
+      push(`/checkout`)
+    }else{
+      alert('Invalide !')
+    }
+  }
   return (
     <div className="h-screen bg-gray-100 pt-20 overflow-auto">
       {
@@ -84,14 +92,14 @@ function Cart() {
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <Link href={`/checkout`}>
-            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+            
+            <button onClick={handleCheckout} className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
               Check out
               </button>
-            </Link>
           </div>
         </div>
       )}
+      
     </div>
 
   )

@@ -1,16 +1,18 @@
 "use client"
-import Image from "next/image";
-import { getIncart, totalPrice } from "../libs/products";
-import { useState } from "react";
+import { getIncart, totalPrice } from '../../libs/products'
+import Image from 'next/image'
+import React, { useState } from 'react'
 
-export default function Page() {
-    const [isPaypal, setPaypal] = useState(false)
-    const [type, setType] = useState(0)
-    const products = getIncart()
-    const totalprice = totalPrice()
+function Checkout() {
+    const [isPaypal, setPaypal] = useState(false);
+    const products = getIncart();
+    const totalprice = totalPrice();
     const num1 = totalprice;
     const num2 = (totalprice / 100);
     const total = num1 + num2;
+    const handleOthers = () => {
+        setPaypal(!isPaypal);
+    }
     if (products.length > 0)
         return (
             <>
@@ -147,10 +149,16 @@ export default function Page() {
                                                     </label>
                                                 </div>
                                             </div>
+                                            <div className="w-full p-3">
+                                                <input type="radio" className="hidden" name="type" id="type2" />
+                                                <label className="flex items-center cursor-pointer">
+                                                    <button type='button' onClick={handleOthers} className="block w-full max-w-xs mx-auto bg-blue-500 hover:bg-blue-700 focus:bg-blue-700 text-white rounded-lg px-3 py-2 font-semibold">Others</button>
+                                                </label>
+                                            </div>
                                             {/* <!-- component --> */}
 
                                         </div>
-                                        <div onClick={() => setPaypal(true)}>
+                                        <div>
                                             <button className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i className="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
                                         </div>
                                     </form>
@@ -170,7 +178,7 @@ export default function Page() {
                                 <div className="bg-white rounded-lg p-6 w-96 max-w-full shadow-lg transform transition-all duration-300">
                                     {/* <!-- Modal Header --> */}
                                     <div className="flex justify-between items-center border-b-2 border-gray-200 pb-4">
-                                        <h2 className="text-2xl font-semibold">Create or Import Project</h2>
+                                        <h2 className="text-2xl font-semibold capitalize">Choose Payment method</h2>
                                         <button onClick={() => setPaypal(false)} className="text-gray-500 hover:text-gray-700 focus:outline-none">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x">
                                                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -181,19 +189,38 @@ export default function Page() {
 
                                     {/* <!-- Modal Content --> */}
                                     <div className="mt-6 space-y-4">
-                                        <p className="text-lg text-gray-600">Choose how you want to create or import a project:</p>
-                                        <div className="flex flex-col space-y-4">
-                                            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">Create New Project</button>
-                                            <button className="flex items-center justify-center gap-2 bg-gray-900 text-gray-100 px-4 py-2 rounded-lg hover:bg-black transition duration-300">
-                                                <img src="https://svgur.com/i/yp2.svg" alt="Github Icon" />
-                                                Import from GitHub
-                                            </button>
+                                        <div className="flex items-center cursor-pointer">
+                                            <input type="radio" className="form-radio h-5 w-5 text-indigo-500" name="type" id="ecocash" />
+                                            <label htmlFor="ecocash">
+                                                <Image src="/img/ecocash.svg" width={80} height={20} alt='ecocash' className="ml-3" />
+                                            </label>
                                         </div>
+                                        <hr />
+                                        <div className="flex items-center cursor-pointer">
+                                            <input type="radio" className="form-radio h-5 w-5 text-indigo-500" name="type" id="lumicash" />
+                                            <label htmlFor="lumicash">
+                                                <Image src="/img/lumicash.png" width={50} height={20} alt='lumicash' className="ml-3" />
+                                            </label>
+                                        </div>
+                                        <hr />
+                                        <div className="flex items-center cursor-pointer">
+                                            <input type="radio" className="form-radio h-5 w-5 text-indigo-500" name="type" id="enoti" />
+                                            <label htmlFor="enoti">
+                                                <Image src="/img/enoti.jpg" width={80} height={20} alt='enoti' className="ml-3" />
+                                            </label>
+                                        </div>
+                                        <hr />
+                                        <div className="flex items-center cursor-pointer">
+                                            <input type="radio" className="form-radio h-5 w-5 text-indigo-500" name="type" id="bitcoin" />
+                                            <label htmlFor="bitcoin">
+                                                <Image src="/img/bitcoin.png" width={80} height={20} alt='bitcoin' className="ml-3" />
+                                            </label>
+                                        </div>
+                                        <hr />
                                     </div>
 
-                                    {/* <!-- Additional Information --> */}
-                                    <div className="mt-6 text-sm text-gray-500">
-                                        <p>Create a new project from scratch or import an existing project from your GitHub repository.</p>
+                                    <div className="flex justify-end items-center cursor-pointer pt-2">
+                                        <button type='button' className="block bg-blue-500 hover:bg-blue-700 focus:bg-blue-700 text-white rounded-lg px-3 py-2 font-semibold">Ok</button>
                                     </div>
                                 </div>
                             </div>
@@ -239,3 +266,5 @@ export default function Page() {
             </>
         )
 }
+
+export default Checkout

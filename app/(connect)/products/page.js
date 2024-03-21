@@ -1,4 +1,4 @@
-import Products from "../ui/products/page";
+import Products from "../../ui/products/page";
 
 export default function Page() {
     return (

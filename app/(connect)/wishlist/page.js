@@ -1,4 +1,4 @@
-import Wishlists from "../ui/products/wishilist";
+import Wishlists from "../../ui/products/wishilist";
 
 export default function Page() {
     return (

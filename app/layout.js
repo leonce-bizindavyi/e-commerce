@@ -1,8 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./ui/navbar";
-import Chat from "./ui/chat";
 import { ProductProvider } from "./ui/context/products";
+import { SessionProvider } from "./ui/context/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,11 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ProductProvider>
-        <Navbar />
-        {children}
-        <Chat />
-        </ProductProvider>
+        <SessionProvider>
+          <ProductProvider>
+            {children}
+          </ProductProvider>
+        </SessionProvider>
       </body>
     </html>
   );

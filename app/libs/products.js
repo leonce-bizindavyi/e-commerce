@@ -16,7 +16,8 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: true,
+      sale: false,
+      deadline:  new Date("2024-03-22T17:15:45"),
       wishilist: false
     },
     {
@@ -31,7 +32,8 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: true,
+      sale: false,
+      deadline:  new Date("2024-03-22T16:17:05"),
       wishilist: false
     },
     {
@@ -46,7 +48,8 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: true,
+      sale: false,
+      deadline:  new Date("2024-04-23T07:00:00"),
       wishilist: false
     },
     {
@@ -61,7 +64,7 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: false,
+      sale: true,
       wishilist: false
     },
     {
@@ -76,7 +79,7 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: false,
+      sale: true,
       wishilist: false
     },
     {
@@ -91,7 +94,8 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: true,
+      sale: false,
+      deadline:  new Date("2024-04-22T23:00:00"),
       wishilist: false
     },
     {
@@ -106,7 +110,7 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: false,
+      sale: true,
       wishilist: false
     },
     {
@@ -121,7 +125,8 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: true,
+      sale: false,
+      deadline:  new Date("2024-04-21T16:00:30"),
       wishilist: false
     },
     {
@@ -136,7 +141,8 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: true,
+      sale: false,
+      deadline:  new Date("2024-04-22T15:30:00"),
       wishilist: false
     },
     {
@@ -151,7 +157,7 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: false,
+      sale: true,
       wishilist: false
     },
     {
@@ -166,7 +172,7 @@ export const storeProducts = [
       inCart: false,
       count: 0,
       total: 0,
-      sale: false,
+      sale: true,
       wishilist: false
     }
   ]; 

@@ -1,5 +1,5 @@
 "use client"
-import { storeProducts } from '@/app/libs/products';
+import { storeProducts } from '../../libs/products';
 import React, { useEffect, useState } from 'react';
 const ProductContext = React.createContext();
 
@@ -9,6 +9,7 @@ const [inCart, setInCart] = useState([])
 const [wishlists, setWishlists] = useState([])
 const [count, setCount] = useState(0)
   useEffect(() => {
+    console.log('stored')
     setProducts(storeProducts)
   }, []); // Ajout des dépendances router.query.v et auto.session
 
@@ -48,6 +49,7 @@ const [count, setCount] = useState(0)
       product.count-= 1
       if( product.count <= 0){
         product.inCart= false
+        setInCart(prevProd => prevProd.filter(product => product.id !== productId));
       }
     } else {
       console.error("Product with ID", productId, "not found");
@@ -57,9 +59,10 @@ const [count, setCount] = useState(0)
   function handleCount(productId,value) {
     const product = inCart.find(product => product.id === parseInt(productId));
     if (product) {
-      product.count = value;
+      product.count = parseInt(value);
       if(value !== '' && value == 0){
         product.inCart= false
+        setInCart(prevProd => prevProd.filter(product => product.id !== productId));
       }
       setCount(product.count)
     } else {
@@ -70,9 +73,28 @@ const [count, setCount] = useState(0)
     const product = storeProducts.find(product => product.id === parseInt(productId));
     setWishlists(prevProd => [...prevProd, product])
   }
+
+  function getForsales(){
+    const products = storeProducts.filter((product)=>product.sale === true)
+    setProducts(products)
+  }
+  function getAuction(){
+    const products = storeProducts.filter((product)=>product.sale === false)
+    setProducts(products)
+  }
   function totalIncart(){
     const count = storeProducts.reduce((acc, product) => (product.inCart ? acc + 1 : acc), 0);
     setCount(count)
+  }
+  function addOffer(productId,value){
+    const product = storeProducts.find(product => product.id === parseInt(productId));
+    if (product) {
+      product.preprice = product.price
+      product.price = parseInt(value)
+    } else {
+      console.error("Product with ID", productId, "not found");
+    }
+    setCount(productId)
   }
   return (
     <ProductContext.Provider
@@ -87,7 +109,10 @@ const [count, setCount] = useState(0)
         increment,
         decrement,
         handleCount,
-        totalIncart
+        totalIncart,
+        getForsales,
+        getAuction,
+        addOffer
       }}>
       {props.children}
     </ProductContext.Provider>
