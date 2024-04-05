@@ -1,22 +1,28 @@
 "use client"
 import Image from 'next/image'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ProductContext } from '../context/products'
+import { SessionContext } from '../context/auth'
 
 function BuyModal({product,deadline, setBuy }) {
     const {addOffer} = useContext(ProductContext)
+    const {socket} = useContext(SessionContext)
     const [value, setValue] = useState(0)
+   
+    
     const handleOffer = () =>{
+        socket.emit("enchers",{product: product.id,price: value})
         if(product.price < parseFloat(value)){
             addOffer(product.id, parseFloat(value))
             setBuy(false)
-        }
+        } 
     }
+    
     return (
-        <div className="absolute bg-gray-100 p-4 flex items-center w-1/2 justify-center h-screen">
+        <div className="absolute bg-gray-200 p-4 flex items-center w-1/2 justify-center h-screen">
             <div >
                 <div x-show="showModal" className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-auto max-w-full shadow-lg transform transition-all duration-300">
+                    <div className="bg-gray-100 rounded-lg p-6 w-auto max-w-full shadow-lg transform transition-all duration-300">
                         {/* <!-- Modal Header --> */}
                         <div className="flex justify-between items-center border-b-2 space-x-4  border-gray-200 pb-4">
                             <h2 className="text-2xl font-semibold capitalize">{product.title} </h2>

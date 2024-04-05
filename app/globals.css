@@ -92,6 +92,20 @@ module.exports = {
   color: #a0aec0;
   border: none;
 }
+@media print {
+  .invoice-container { /* Target the container class */
+    display: none;
+  }
+
+  .printContentRef { /* Target the printContentRef class (optional) */
+    display: block;
+  }
+
+  body * {
+    display: none; /* Hide all elements by default */
+  }
+}
+
 
 @media not print {
   .form-select::-ms-expand {
@@ -105,3 +119,5 @@ module.exports = {
   }
 }
 @import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
+
+

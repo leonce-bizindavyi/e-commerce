@@ -14,7 +14,6 @@ export const Signup = () => {
     if (socket) {
     socket.on('registration_successful', (infos)=>{
       if(infos){
-        console.log(infos)
         push('/login')
       }
     })
@@ -69,7 +68,7 @@ export const Signup = () => {
                     <Field type="text" id="username" name="username" className="shadow-sm rounded-md w-full  px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Your name here" />
                   </div>
 
-                  <ErrorMessage name="name" className='text-red-800 text-sm font-medium' component="span" /> <br />
+                  <ErrorMessage name="username" className='text-red-800 text-sm font-medium' component="span" /> <br />
                 </div>
                 <div className="w-full px-11">
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>

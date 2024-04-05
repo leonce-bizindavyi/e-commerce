@@ -15,15 +15,18 @@ export const Login = () => {
   const initialValues = { email: "", password: "" }
    useEffect(() => {
     if(socket){
-      socket.on('login_successful',(infos)=>{
-        if(infos){
+      socket.on('login_successfull',({email})=>{
+        localStorage.setItem('token',email)
+        if(email == "admin@gmail.com"){
+          push('/dashboard')
+        }else{
           push('/')
         }
       })
     
   
     return () => {
-      socket.off('login_successful')
+      socket.off('login_successfull')
     }
   }
   }, [socket])
@@ -55,7 +58,7 @@ export const Login = () => {
           <h1 className="text-white font-bold text-4xl font-sans capitalize">Phones shop</h1>
           <p className="text-white mt-1 capitalize">The simplest methode to use</p>
           <div className="flex justify-center lg:justify-start mt-6">
-            <Link href="/" className="hover:bg-indigo-700 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-2xl font-bold mb-2">Get Started</Link>
+            <Link href="/signup" className="hover:bg-indigo-700 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-2xl font-bold mb-2">Get Started</Link>
           </div>
         </div>
       </div>
@@ -76,7 +79,6 @@ export const Login = () => {
 
                   <ErrorMessage name="email" className='text-red-800 text-sm font-medium' component="span" /> <br />
                 </div>
-
                 <div className="mb-4 w-full px-11">
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
                   <div className='flex flex-row relative  px-1  space-x-1 justify-center w-full items-center overflow-hidden'>

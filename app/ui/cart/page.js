@@ -1,30 +1,36 @@
 "use client"
 import Image from 'next/image'
-import React, { useContext } from 'react'
-import { getIncart, totalPrice } from '../../libs/products'
+import React, { useContext, useState } from 'react'
+import { getIncart } from '../../libs/products'
 import Link from 'next/link'
 import { ProductContext } from '../context/products'
 import { useRouter } from 'next/navigation'
 
 function Cart() {
+
   const {push} = useRouter()
-  const { increment, decrement, handleCount, removeInCart } = useContext(ProductContext)
-  const products = getIncart()
+  const { increment, decrement, handleCount, removeInCart,inCart,totalPrice } = useContext(ProductContext)
   const totalprice = totalPrice()
   const num1 = totalprice;
   const num2 = (totalprice / 100);
   const total = num1 + num2;
+  
   const handleCheckout =()=>{
-    if(!isNaN(total)){
-      push(`/checkout`)
+    const session = localStorage.getItem('token')
+    if(session){
+      if(!isNaN(total)){
+        push(`/checkout`)
+      }else{
+        alert('Invalide !')
+      }
     }else{
-      alert('Invalide !')
+      push('/login')
     }
   }
   return (
     <div className="h-screen bg-gray-100 pt-20 overflow-auto">
       {
-        products.length === 0 ?
+        inCart.length === 0 ?
           <>
             <h1 className="mb-10  text-center text-2xl font-bold">Your Cart Is Currently Empty</h1>
             <div className='flex justify-center'>
@@ -43,10 +49,10 @@ function Cart() {
           :
           <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
       }
-      {products.length > 0 && (
+      {inCart.length > 0 && (
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3 bg-white">
-            {products.map((product) => {
+            {inCart.map((product) => {
               return (
                 <div key={product.id} className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
                   <Image width={400} height={400} src={product.img} alt="product-image" className="w-full rounded-lg sm:w-40" />
@@ -58,7 +64,7 @@ function Cart() {
                     <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                       <div className="flex items-center border-gray-100">
                         <button onClick={() => decrement(product.id)} className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </button>
-                        <input onChange={(e) => handleCount(product.id, e.target.value)} className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={product.count} min={1} />
+                        <input onChange={(e) => handleCount(product.id, e.target.value)} className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={product.count} max={product.total} />
                         <button onClick={() => increment(product.id)} className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </button>
                       </div>
                       <div className="flex items-center space-x-4">
@@ -78,7 +84,7 @@ function Cart() {
           <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Subtotal</p>
-              <p className="text-gray-700">${totalprice}</p>
+              <p className="text-gray-700">${parseFloat(totalprice).toFixed(2)}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-gray-700">Shipping</p>

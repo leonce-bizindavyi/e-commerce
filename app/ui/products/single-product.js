@@ -4,11 +4,16 @@ import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
 import { ProductContext } from '../context/products'
 import BuyModal from './buy-modal'
+import { SessionContext } from '../context/auth'
 
 function Product({ product }) {
-    const { addInCart } = useContext(ProductContext)
+    const { addInCart,inCart,addInWishlist,wishlists } = useContext(ProductContext)
     const [deadline, setDeadline] = useState('')
     const [buy, setBuy] = useState(false)
+    const {socket} = useContext(SessionContext)
+    const [isincart, setIncart] = useState(false)
+    const [inwishlist, setWishlist] = useState(false)
+    const [reached, setReached] = useState(false)
     useEffect(() => {
         function countdown(deadline) {
             const now = new Date().getTime();
@@ -16,6 +21,7 @@ function Product({ product }) {
             const remainingTime = deadlineTime - now;
 
             if (remainingTime <= 0) {
+                setReached(true)
                 setDeadline('Deadline reached !')
                 return;
             }
@@ -31,6 +37,7 @@ function Product({ product }) {
                 setDeadline(formattedTime)
 
                 if (remainingTime <= 0) {
+                    setReached(true)
                     setDeadline('Deadline reached !')
                     clearInterval(intervalId);
                 }
@@ -40,9 +47,9 @@ function Product({ product }) {
         // Example usage
         const deadline = product.deadline; // Set your deadline here
         countdown(deadline);
-
-    }, [product])
-
+        setIncart(inCart.find(cart => cart.id === product.id));
+        setWishlist(wishlists.find(wish => wish.id === product.id))
+    }, [product,inCart,wishlists])
     return (
         <>
             <article className="relative bg-white p-2">
@@ -93,17 +100,17 @@ function Product({ product }) {
                     !product.sale ?
                         <div className=" text-white pt-2 rounded flex justify-between space-x-2">
                             <div className=' text-gray-900'>{deadline}</div>
-                            <button onClick={() => setBuy(true)} className='bg-blue-500 hover:bg-blue-400 text-white p-2 rounded'>Buy</button>
+                           {!reached && ( <button onClick={() => setBuy(true)} className='bg-blue-500 hover:bg-blue-400 text-white p-2 rounded'>Buy</button>)}
                         </div>
                         :
                         <div className='text-white pt-2 rounded flex justify-end space-x-2'>
-                            <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                            <button onClick={()=>addInWishlist(product.id)} className={`rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center ${inwishlist ? "text-blue-500": "text-gray-500"} hover:text-blue-400 ml-4`}>
                                 <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                                 </svg>
                             </button>
                             {
-                                product.inCart ?
+                                isincart ?
                                     <button className='bg-blue-400 text-white p-2 rounded'>inCart</button>
                                     :
                                     <button onClick={() => addInCart(product.id)} className='bg-blue-500 hover:bg-blue-400 text-white p-2 rounded'>Add in cart</button>
@@ -112,7 +119,7 @@ function Product({ product }) {
                 }
             </article>
             {
-                buy && (
+                buy&& !reached && (
                     <BuyModal product={product} deadline={deadline} setBuy={setBuy} />
                 )
             }

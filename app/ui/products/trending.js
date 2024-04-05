@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SessionContext } from '../context/auth'
 import { ProductContext } from '../context/products'
 
-function Products() {
+function Trending() {
     const {socket} = useContext(SessionContext)
     const [storeProducts, Store] = useState([])
     const [products, setProducts] = useState([])
@@ -13,6 +13,7 @@ function Products() {
         if(socket){
             socket.emit("connected", {connect: true})
           socket.on("all_products",(infos)=>{
+            console.log(infos)
             setProducts(infos)
             Store(infos)
           })
@@ -23,17 +24,14 @@ function Products() {
       }, [socket])
       const handleForsales = ()=>{
         setFiltred(1)
-        console.log(storeProducts)
         setProducts(storeProducts.filter((product)=>product.sale === true))
     }
     const handleAuction = ()=>{
         setFiltred(2)
-        console.log(storeProducts)
         setProducts(storeProducts.filter((product)=>product.sale === false))
     }
     const handleAll = ()=>{
         setFiltred(0)
-        console.log(storeProducts)
         setProducts(storeProducts)
     }
     return (
@@ -58,4 +56,4 @@ function Products() {
     )
 }
 
-export default Products
+export default Trending

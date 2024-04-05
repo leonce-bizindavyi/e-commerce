@@ -5,7 +5,7 @@ import React, { useContext } from 'react'
 import { ProductContext } from '../context/products'
 
 function Wishlists() {
-    const { addInCart, wishlists } = useContext(ProductContext)
+    const { addInCart, wishlists,inCart } = useContext(ProductContext)
     return (
         <>
             {wishlists.length === 0 ?
@@ -34,6 +34,7 @@ function Wishlists() {
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 px-2 pb-20 sm:grid-cols-3 sm:px-8 lg:mt-16 lg:grid-cols-4 lg:gap-x-4 lg:px-0">
                     {
                         wishlists.map((product) => {
+                            if(product.total>0)
                             return (
                                 <article key={product.id} className="relative bg-white p-2">
                                     <Link href={`/product/${product.id}/detail`}>
@@ -80,13 +81,13 @@ function Wishlists() {
                                     </Link>
                                     <hr className=' bg-gray-500' />
                                     <div class=" text-white pt-2 rounded flex justify-end space-x-2">
-                                        <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                                        <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-blue-500 ml-4">
                                             <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                                                 <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                                             </svg>
                                         </button>
                                         {
-                                            product.inCart ?
+                                            inCart.find(cart => cart.id === product.id) ?
                                                 <button className='bg-blue-400 text-white p-2 rounded'>inCart</button>
                                                 :
                                                 <button onClick={() => addInCart(product.id)} className='bg-blue-500 hover:bg-blue-400 text-white p-2 rounded'>Add in cart</button>

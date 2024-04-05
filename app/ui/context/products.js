@@ -1,20 +1,28 @@
 "use client"
 import { storeProducts } from '../../libs/products';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { SessionContext } from './auth';
 const ProductContext = React.createContext();
 
 function ProductProvider(props) {
+  const { socket } = useContext(SessionContext)
   const [products, setProducts] = useState([])
-const [inCart, setInCart] = useState([])
-const [wishlists, setWishlists] = useState([])
-const [count, setCount] = useState(0)
+  const [inCart, setInCart] = useState([])
+  const [wishlists, setWishlists] = useState([])
+  const [count, setCount] = useState(0)
   useEffect(() => {
-    console.log('stored')
-    setProducts(storeProducts)
-  }, []); // Ajout des dépendances router.query.v et auto.session
+    if (socket) {
+      socket.on("all_products", (infos) => {
+        setProducts(infos)
+      })
+      return () => {
+        socket.off("all_products")
+      }
+    }
+  }, [socket]); // Ajout des dépendances router.query.v et auto.session
 
-   function addInCart(productId) {
-    const product = storeProducts.find(product => product.id === parseInt(productId));
+  function addInCart(productId) {
+    const product = products.find(product => product.id === parseInt(productId));
     if (product && !product.inCart) {
       product.inCart = true;
       product.count = 1;
@@ -22,7 +30,13 @@ const [count, setCount] = useState(0)
     } else {
       console.error("Product with ID", productId, "not found");
     }
-    
+
+  }
+  function totalPrice() {
+    const totalCartPrice = inCart.filter(product => product.inCart === true).reduce((accumulator, product) => {
+      return accumulator + product.price * product.count;
+    }, 0);
+    return totalCartPrice;
   }
   function removeInCart(productId) {
     const product = storeProducts.find(product => product.id === parseInt(productId));
@@ -36,7 +50,7 @@ const [count, setCount] = useState(0)
   }
   function increment(productId) {
     const product = inCart.find(product => product.id === parseInt(productId));
-    if (product) {
+    if (product && product.total > product.count) {
       product.count += 1;
     } else {
       console.error("Product with ID", productId, "not found");
@@ -46,9 +60,9 @@ const [count, setCount] = useState(0)
   function decrement(productId) {
     const product = inCart.find(product => product.id === parseInt(productId));
     if (product) {
-      product.count-= 1
-      if( product.count <= 0){
-        product.inCart= false
+      product.count -= 1
+      if (product.count <= 0) {
+        product.inCart = false
         setInCart(prevProd => prevProd.filter(product => product.id !== productId));
       }
     } else {
@@ -56,12 +70,12 @@ const [count, setCount] = useState(0)
     }
     setCount(product.count)
   }
-  function handleCount(productId,value) {
+  function handleCount(productId, value) {
     const product = inCart.find(product => product.id === parseInt(productId));
-    if (product) {
+    if (product && product.total > parseInt(value)) {
       product.count = parseInt(value);
-      if(value !== '' && value == 0){
-        product.inCart= false
+      if (value !== '' && value == 0) {
+        product.inCart = false
         setInCart(prevProd => prevProd.filter(product => product.id !== productId));
       }
       setCount(product.count)
@@ -69,24 +83,24 @@ const [count, setCount] = useState(0)
       console.error("Product with ID", productId, "not found");
     }
   }
-  function addInWishlist(productId){
+  function addInWishlist(productId) {
     const product = storeProducts.find(product => product.id === parseInt(productId));
     setWishlists(prevProd => [...prevProd, product])
   }
 
-  function getForsales(){
-    const products = storeProducts.filter((product)=>product.sale === true)
+  function getForsales() {
+    const products = storeProducts.filter((product) => product.sale === true)
     setProducts(products)
   }
-  function getAuction(){
-    const products = storeProducts.filter((product)=>product.sale === false)
+  function getAuction() {
+    const products = storeProducts.filter((product) => product.sale === false)
     setProducts(products)
   }
-  function totalIncart(){
+  function totalIncart() {
     const count = storeProducts.reduce((acc, product) => (product.inCart ? acc + 1 : acc), 0);
     setCount(count)
   }
-  function addOffer(productId,value){
+  function addOffer(productId, value) {
     const product = storeProducts.find(product => product.id === parseInt(productId));
     if (product) {
       product.preprice = product.price
@@ -112,7 +126,8 @@ const [count, setCount] = useState(0)
         totalIncart,
         getForsales,
         getAuction,
-        addOffer
+        addOffer,
+        totalPrice
       }}>
       {props.children}
     </ProductContext.Provider>

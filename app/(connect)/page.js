@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Products from "../ui/products/page";
+import Trending from "../ui/products/trending";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
@@ -33,7 +33,7 @@ export default function Home() {
           </div>
         </div>
         <div className="text-3xl uppercase font-semibold">Trending products</div>
-          <Products />
+          <Trending />
       </div>
     </main>
   );
